@@ -3,7 +3,7 @@
 namespace Varhall\Utilino\Collections;
 
 
-interface ICollection extends \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable, ISearchable, ISerializable
+interface ICollection extends \ArrayAccess, \Countable, \JsonSerializable, ISearchable, ISerializable
 {
     /**
      * Size of collection
