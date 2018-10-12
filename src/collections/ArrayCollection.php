@@ -25,9 +25,19 @@ class ArrayCollection implements ICollection
 
     public static function create(...$values)
     {
-        return new static($values);
+        return new static(...$values);
     }
 
+    public static function range($first, $last, $step = 1)
+    {
+        $array = [];
+
+        for ($i = $first; $i <= $last; $i += $step) {
+            $array[] = $i;
+        }
+
+        return new static($array);
+    }
 
 
 
@@ -124,11 +134,6 @@ class ArrayCollection implements ICollection
 
     /// ICollection interface
 
-    public function all()
-    {
-        return $this->data;
-    }
-
     public function count()
     {
         return count($this->data);
@@ -142,6 +147,8 @@ class ArrayCollection implements ICollection
             if (call_user_func($func, $value, $key, $index++) === FALSE)
                 break;
         }
+
+        return $this;
     }
 
     public function every(callable $func)
@@ -153,9 +160,9 @@ class ArrayCollection implements ICollection
 
     public function filter(callable $func)
     {
-        return new static(array_filter($this->data, function($item) use ($func) {
-            return call_user_func_array($func, $item);
-        }));
+        return new static(array_filter($this->data, function($item, $key) use ($func) {
+            return call_user_func_array($func, $item, $key);
+        }), ARRAY_FILTER_USE_BOTH);
     }
 
     public function first(callable $func = NULL)
@@ -195,7 +202,9 @@ class ArrayCollection implements ICollection
 
     public function merge($collection)
     {
-        return new static(array_merge($this->data, $collection));
+        $array = ($collection instanceof ICollection) ? $collection->toArray() : $collection;
+
+        return new static(array_merge($this->data, $array));
     }
 
     public function pad($size, $value)
