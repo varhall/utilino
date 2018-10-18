@@ -214,7 +214,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
 
     public function pipe(callable $func)
     {
-        return call_user_func_array($func, $this);
+        return call_user_func_array($func, [ $this ]);
     }
 
     public function pop()
