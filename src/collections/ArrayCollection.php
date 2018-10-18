@@ -4,7 +4,7 @@ namespace Varhall\Utilino\Collections;
 
 use Traversable;
 
-class ArrayCollection implements ICollection, IteratorAggregate
+class ArrayCollection implements ICollection, \IteratorAggregate
 {
     /**
      * @var array

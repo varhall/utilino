@@ -1,6 +1,6 @@
 <?php
 
-namespace Varhall\Utilino\Collections;
+namespace Varhall\Utilino;
 
 /**
  * Objects which can be serialized to array or JSON

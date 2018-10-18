@@ -2,6 +2,7 @@
 
 namespace Varhall\Utilino\Collections;
 
+use Varhall\Utilino\ISerializable;
 
 interface ICollection extends \ArrayAccess, \Countable, \JsonSerializable, ISearchable, ISerializable
 {
