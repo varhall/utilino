@@ -162,7 +162,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
     {
         return new static(array_filter($this->data, function($item, $key) use ($func) {
             return call_user_func_array($func, [$item, $key]);
-        }), ARRAY_FILTER_USE_BOTH);
+        }, ARRAY_FILTER_USE_BOTH));
     }
 
     public function first(callable $func = NULL)
