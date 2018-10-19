@@ -19,13 +19,15 @@ class Price extends AbstractPrice
         return $instance;
     }
 
-    public static function taxed($vatPrice, $vat, $discount = 0)
+    public static function taxed($vatPrice, $vat, $vatDiscount = 0)
     {
         $instance = new static();
 
-        $instance->price = $vatPrice / (1 + $vat / 100);
+        $vatCoefficient = (1 + ($vat / 100));
+
+        $instance->price = ($vatPrice / $vatCoefficient);
         $instance->vat = $vat;
-        $instance->discount = $discount;
+        $instance->discount = $vatDiscount / $vatCoefficient;
 
         return $instance;
     }
