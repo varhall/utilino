@@ -11,8 +11,14 @@ class Merge extends Decorator
     protected $merge = NULL;
     protected $method = self::FORCE;
 
-    public function __construct(IPrice $price, IPrice $merge, $method = self::FORCE)
+    public function __construct(IPrice $price = NULL, IPrice $merge = NULL, $method = self::FORCE)
     {
+        if ($price === NULL)
+            $price = Price::basic(0);
+
+        if ($merge === NULL)
+            $merge = Price::basic(0);
+
         parent::__construct($price);
 
         if ($method === self::SAME && $price->vat() !== $merge->vat())
