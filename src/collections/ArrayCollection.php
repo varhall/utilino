@@ -238,7 +238,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
 
     public function reduce(callable $func, $initial = NULL)
     {
-        return array_reduce($this->data, $func);
+        return array_reduce($this->data, $func, $initial);
     }
 
     public function search($value, callable $func = NULL)
