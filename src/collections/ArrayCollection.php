@@ -258,7 +258,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
 
     public function search($value, callable $func = NULL)
     {
-        if (!$func === NULL && $this->_searchFunc !== NULL)
+        if ($func === NULL && $this->_searchFunc !== NULL)
             $func = $this->_searchFunc;
 
         return new static($this->filter(function($item) use($func, $value) {
