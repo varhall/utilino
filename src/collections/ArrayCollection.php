@@ -262,7 +262,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
             $func = $this->_searchFunc;
 
         return new static($this->filter(function($item) use($func, $value) {
-            return (!!$func ? call_user_func($func, $item) : $item) == $value;
+            return !!$func ? call_user_func($func, $item, $value) : TRUE;
         }));
     }
 
