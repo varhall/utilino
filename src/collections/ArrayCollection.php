@@ -3,6 +3,7 @@
 namespace Varhall\Utilino\Collections;
 
 use Traversable;
+use Varhall\Utilino\ISerializable;
 
 class ArrayCollection implements ICollection, \IteratorAggregate
 {
@@ -10,6 +11,8 @@ class ArrayCollection implements ICollection, \IteratorAggregate
      * @var array
      */
     protected $data = [];
+
+    protected $_searchFunc = NULL;
 
     /// Creation methods
 
@@ -131,6 +134,13 @@ class ArrayCollection implements ICollection, \IteratorAggregate
 
 
 
+    public function searchFunc(callable $func)
+    {
+        $this->_searchFunc = $func;
+
+        return $this;
+    }
+
 
     /// ICollection interface
 
@@ -248,6 +258,9 @@ class ArrayCollection implements ICollection, \IteratorAggregate
 
     public function search($value, callable $func = NULL)
     {
+        if (!$func === NULL && $this->_searchFunc !== NULL)
+            $func = $this->_searchFunc;
+
         return new static($this->filter(function($item) use($func, $value) {
             return (!!$func ? call_user_func($func, $item) : $item) == $value;
         }));
