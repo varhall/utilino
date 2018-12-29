@@ -139,6 +139,11 @@ class ArrayCollection implements ICollection, \IteratorAggregate
         return count($this->data);
     }
 
+    public function limit($limit, $offset = null)
+    {
+        return new static(array_slice($this->data, $offset !== null ? $offset : 0, $limit));
+    }
+
     public function each(callable $func)
     {
         $index = 0;

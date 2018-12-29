@@ -4,7 +4,7 @@ namespace Varhall\Utilino\Collections;
 
 use Varhall\Utilino\ISerializable;
 
-interface ICollection extends \ArrayAccess, \Countable, \JsonSerializable, ISearchable, ISerializable
+interface ICollection extends \ArrayAccess, \Countable, \JsonSerializable, ISearchable, IPaginable, ISerializable
 {
     /**
      * Size of collection
@@ -12,6 +12,9 @@ interface ICollection extends \ArrayAccess, \Countable, \JsonSerializable, ISear
      * @return int
      */
     public function count();
+
+    /** Slices collection to size, optionally from offset */
+    public function limit($limit, $offset = null);
 
     /**
      * Executes function for each item in collection
