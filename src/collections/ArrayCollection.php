@@ -217,9 +217,9 @@ class ArrayCollection implements ICollection, \IteratorAggregate
 
     public function merge($collection)
     {
-        $array = ($collection instanceof ICollection) ? $collection->toArray() : $collection;
+        $array = ($collection instanceof ICollection) ? $collection->asArray() : $collection;
 
-        return new static(array_merge($this->data, $array));
+        return new static(array_merge($this->asArray(), $array));
     }
 
     public function pad($size, $value)
