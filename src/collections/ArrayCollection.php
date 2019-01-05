@@ -282,9 +282,28 @@ class ArrayCollection implements ICollection, \IteratorAggregate
         return new static(array_values($this->data));
     }
 
-    public function toArray()
+    public function asArray()
     {
         return $this->data;
+    }
+
+    public function toArray()
+    {
+        return $this->map(function($item) {
+            if (is_array($item) || is_scalar($item) || is_null($item))
+                return $item;
+
+            else if ($item instanceof \Varhall\Utilino\ISerializable)
+                return $item->toArray();
+
+            else if ($item instanceof \Nette\Database\Table\ActiveRow)
+                return $item->toArray();
+
+            else if (is_object($item))
+                return json_decode(json_encode($item), true);
+
+            return NULL;
+        })->data;
     }
 
     public function toJson()

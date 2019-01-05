@@ -7,6 +7,13 @@ use Varhall\Utilino\ISerializable;
 interface ICollection extends \ArrayAccess, \Countable, \JsonSerializable, ISearchable, IPaginable, ISerializable
 {
     /**
+     * Creates shallow conversion to array. All nested structures remain unchanged
+     *
+     * @return array
+     */
+    public function asArray();
+
+    /**
      * Size of collection
      *
      * @return int

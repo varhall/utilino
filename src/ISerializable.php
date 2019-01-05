@@ -9,7 +9,17 @@ namespace Varhall\Utilino;
  */
 interface ISerializable
 {
+    /**
+     * Converts to object to deep array (each sub-item must be array)
+     *
+     * @return array
+     */
     public function toArray();
-    
+
+    /**
+     * Converts object to JSON
+     *
+     * @return string
+     */
     public function toJson();
 }
