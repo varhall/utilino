@@ -56,6 +56,11 @@ interface ICollection extends \ArrayAccess, \Countable, \JsonSerializable, ISear
     public function first(callable $func = NULL);
 
     /**
+     * @return Reduces level of collection
+     */
+    public function flatten();
+
+    /**
      * True if collection is empty
      *
      * @return boolean

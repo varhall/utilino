@@ -18,6 +18,9 @@ class ArrayCollection implements ICollection, \IteratorAggregate
 
     public function __construct(...$values)
     {
+        if (empty($values))
+            $values = [];
+
         $this->data = call_user_func_array('array_merge', array_map(function($item) {
             if ($item instanceof ISerializable)
                 return $item->toArray();
@@ -188,6 +191,13 @@ class ArrayCollection implements ICollection, \IteratorAggregate
             return NULL;
 
         return $collection[0];
+    }
+
+    public function flatten()
+    {
+        return $this->reduce(function($carry, $item) {
+            return $carry->merge($item);
+        }, ArrayCollection::create());
     }
 
     public function isEmpty()
