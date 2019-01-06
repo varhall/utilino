@@ -19,7 +19,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
     public function __construct(...$values)
     {
         if (empty($values))
-            $values = [];
+            $values = [[]];
 
         $this->data = call_user_func_array('array_merge', array_map(function($item) {
             if ($item instanceof ISerializable)
