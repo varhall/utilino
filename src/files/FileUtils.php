@@ -9,15 +9,19 @@ class FileUtils
         if (empty($filename))
             $filename = preg_replace('/[?#].*$/', '', basename($url));
 
+        if (!empty($params))
+            $url .= '?' . http_build_query($params);
+
         $tmp = tmpfile();
 
         $curl = curl_init();
         curl_setopt_array($curl, [
             CURLOPT_RETURNTRANSFER  => 1,
-            CURLOPT_URL             => $url . '?' . http_build_query($params),
+            CURLOPT_URL             => $url,
             CURLOPT_USERAGENT       => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.91 Safari/537.36',
             CURLOPT_SSL_VERIFYPEER  => FALSE,
-            CURLOPT_FILE            => $tmp
+            CURLOPT_FILE            => $tmp,
+            CURLOPT_FOLLOWLOCATION  => TRUE,
         ]);
 
         curl_exec($curl);
