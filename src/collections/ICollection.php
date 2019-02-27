@@ -148,6 +148,13 @@ interface ICollection extends \ArrayAccess, \Countable, \JsonSerializable, ISear
     public function reduce(callable $func, $initial = NULL);
 
     /**
+     * Reverse order of collection
+     *
+     * @return ICollection
+     */
+    public function reverse();
+
+    /**
      * Removes first value from the collection
      *
      * @return mixed

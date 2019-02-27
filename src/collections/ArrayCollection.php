@@ -266,6 +266,11 @@ class ArrayCollection implements ICollection, \IteratorAggregate
         return array_reduce($this->data, $func, $initial);
     }
 
+    public function reverse()
+    {
+        return new static(array_reverse($this->asArray()));
+    }
+
     public function search($value, callable $func = NULL)
     {
         if ($func === NULL && $this->_searchFunc !== NULL)
