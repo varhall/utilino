@@ -48,6 +48,14 @@ interface ICollection extends \ArrayAccess, \Countable, \JsonSerializable, ISear
     public function filter(callable $func);
 
     /**
+     * Returns new colletion where each key is in given array or matches given function
+     *
+     * @param $keys array|callable
+     * @return ICollection
+     */
+    public function filterKeys($keys);
+
+    /**
      * Returns first item which matches function if given
      *
      * @param callable|NULL $func args: $item

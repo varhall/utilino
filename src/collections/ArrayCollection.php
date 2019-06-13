@@ -183,6 +183,19 @@ class ArrayCollection implements ICollection, \IteratorAggregate
         }, ARRAY_FILTER_USE_BOTH));
     }
 
+    public function filterKeys($keys)
+    {
+        return new static(array_filter($this->data, function($key) use ($keys) {
+            if (is_array($keys))
+                return in_array($key, $keys);
+
+            else if (is_callable($keys))
+                return call_user_func($keys, $key);
+
+            return TRUE;
+        }, ARRAY_FILTER_USE_KEY));
+    }
+
     public function first(callable $func = NULL)
     {
         $collection = !!$func ? $this->filter($func) : $this;
