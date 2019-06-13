@@ -26,4 +26,14 @@ abstract class AbstractPrice implements IPrice
     {
         return json_encode($this->toArray());
     }
+
+    public function add(IPrice $price, $method = Merge::FORCE)
+    {
+        return new Merge($this, $price, $method);
+    }
+
+    public function subtract(IPrice $price, $method = Merge::FORCE)
+    {
+        return $this->add(new Multiplicity($price, -1), $method);
+    }
 }
