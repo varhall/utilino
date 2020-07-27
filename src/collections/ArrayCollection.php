@@ -12,7 +12,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
      */
     protected $data = [];
 
-    protected $_searchFunc = NULL;
+    protected $_searchFunc = null;
 
     /// Creation methods
 
@@ -162,7 +162,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
         $index = 0;
 
         foreach ($this->data as $key => $value) {
-            if (call_user_func($func, $value, $key, $index++) === FALSE)
+            if (call_user_func($func, $value, $key, $index++) === false)
                 break;
         }
 
@@ -171,9 +171,22 @@ class ArrayCollection implements ICollection, \IteratorAggregate
 
     public function every(callable $func)
     {
-        return $this->reduce(function($carry, $item) use ($func) {
-            return $carry && call_user_func($func, $item);
-        }, TRUE);
+        foreach ($this->data as $item) {
+            if (call_user_func($func, $item) === false)
+                return false;
+        }
+
+        return true;
+    }
+    
+    public function any(callable $func)
+    {
+        foreach ($this->data as $item) {
+            if (call_user_func($func, $item) === true)
+                return true;
+        }
+        
+        return false;
     }
 
     public function filter(callable $func)
@@ -192,16 +205,16 @@ class ArrayCollection implements ICollection, \IteratorAggregate
             else if (is_callable($keys))
                 return call_user_func($keys, $key);
 
-            return TRUE;
+            return true;
         }, ARRAY_FILTER_USE_KEY));
     }
 
-    public function first(callable $func = NULL)
+    public function first(callable $func = null)
     {
         $collection = !!$func ? $this->filter($func) : $this;
 
         if (!$collection->count())
-            return NULL;
+            return null;
 
         return $collection[0];
     }
@@ -223,12 +236,12 @@ class ArrayCollection implements ICollection, \IteratorAggregate
         return new static(array_keys($this->data));
     }
 
-    public function last(callable $func = NULL)
+    public function last(callable $func = null)
     {
         $collection = !!$func ? $this->filter($func) : $this;
 
         if (!$collection->count())
-            return NULL;
+            return null;
 
         return $collection[$collection->count() - 1];
     }
@@ -274,7 +287,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
         return $this;
     }
 
-    public function reduce(callable $func, $initial = NULL)
+    public function reduce(callable $func, $initial = null)
     {
         return array_reduce($this->data, $func, $initial);
     }
@@ -284,13 +297,13 @@ class ArrayCollection implements ICollection, \IteratorAggregate
         return new static(array_reverse($this->asArray()));
     }
 
-    public function search($value, callable $func = NULL)
+    public function search($value, callable $func = null)
     {
-        if ($func === NULL && $this->_searchFunc !== NULL)
+        if ($func === null && $this->_searchFunc !== null)
             $func = $this->_searchFunc;
 
         return new static($this->filter(function($item) use($func, $value) {
-            return !!$func ? call_user_func($func, $item, $value) : TRUE;
+            return !!$func ? call_user_func($func, $item, $value) : true;
         }));
     }
 
@@ -330,7 +343,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
             else if (is_object($item))
                 return json_decode(json_encode($item), true);
 
-            return NULL;
+            return null;
         })->data;
     }
 

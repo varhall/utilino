@@ -40,6 +40,14 @@ interface ICollection extends \ArrayAccess, \Countable, \JsonSerializable, ISear
     public function every(callable $func);
 
     /**
+     * Return true if any of items in collection matches given function
+     *
+     * @param callable $func
+     * @return boolean
+     */
+    public function any(callable $func);
+
+    /**
      * Returns new collection where each item matches given function
      *
      * @param callable $func args: $item
