@@ -152,7 +152,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
         return count($this->data);
     }
 
-    public function limit($limit, $offset = null)
+    public function limit(?int $limit, ?int $offset = null)
     {
         return new static(array_slice($this->data, $offset !== null ? $offset : 0, $limit));
     }
