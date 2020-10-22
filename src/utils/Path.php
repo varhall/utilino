@@ -7,7 +7,9 @@ class Path
 {
     public static function combine(...$parts)
     {
-        return implode(DIRECTORY_SEPARATOR, array_map(function($part) {
+        $prefix = !empty($parts) && preg_match('#^[/\\\]#', $parts[0]) ? $parts[0][0] : '';
+
+        return $prefix . implode(DIRECTORY_SEPARATOR, array_map(function($part) {
             return trim($part, " \t\n\r\0\x0B\\/");
         }, $parts));
     }
