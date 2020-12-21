@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test>
+    <person>
+        <name>Pepa</name>
+        <surname>Novak</surname>
+        <salary>25000</salary>
+        <birthdate>1990-05-15</birthdate>
+        <address>
+            <street>Bila 15</street>
+            <city>Prague</city>
+            <zip>150 00</zip>
+        </address>
+        <car>
+            <manufacturer>BMW</manufacturer>
+            <label>ABC-123</label>
+        </car>
+        <car>
+            <manufacturer>Audi</manufacturer>
+            <label>XXX-321</label>
+        </car>
+        <car>
+            <manufacturer>Mercedes</manufacturer>
+            <label>YYY-666</label>
+        </car>
+    </person>
+</test>
