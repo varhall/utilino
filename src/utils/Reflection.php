@@ -3,19 +3,19 @@
 namespace Varhall\Utilino\Utils;
 
 
-trait Reflection
+class Reflection
 {
-    private function readPrivateProperty($object, $property)
+    public static function readPrivateProperty($object, $property)
     {
-        return $this->getPrivateProperty($object, $property)->getValue($object);
+        return self::getPrivateProperty($object, $property)->getValue($object);
     }
 
-    private function writePrivateProperty($object, $property, $value)
+    public static function writePrivateProperty($object, $property, $value)
     {
-        $this->getPrivateProperty($object, $property)->setValue($object, $value);
+        self::getPrivateProperty($object, $property)->setValue($object, $value);
     }
 
-    private function getPrivateProperty($object, $property)
+    private static function getPrivateProperty($object, $property)
     {
         $class = new \ReflectionClass(get_class($object));
 
@@ -34,7 +34,7 @@ trait Reflection
         throw new \ReflectionException("Property {$property} does not exist");
     }
 
-    private function callPrivateMethod($object, $method, array $args = [])
+    public static function callPrivateMethod($object, $method, array $args = [])
     {
         $class = new \ReflectionClass(get_class($object));
 
