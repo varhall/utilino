@@ -17,7 +17,7 @@ class Reflection
 
     private static function getPrivateProperty($object, $property)
     {
-        $class = new \ReflectionClass(get_class($object));
+        $class = new \ReflectionClass($object);
 
         while ($class) {
             if (!$class->hasProperty($property)) {
@@ -36,7 +36,7 @@ class Reflection
 
     public static function callPrivateMethod($object, $method, array $args = [])
     {
-        $class = new \ReflectionClass(get_class($object));
+        $class = new \ReflectionClass($object);
 
         while ($class) {
             if (!$class->hasMethod($method)) {
@@ -51,5 +51,19 @@ class Reflection
         }
 
         throw new \ReflectionException("Method {$method} does not exist");
+    }
+
+    public static function hasTrait($object, $trait)
+    {
+        $class = new \ReflectionClass($object);
+
+        while ($class) {
+            if (in_array($trait, $class->getTraitNames()))
+                return true;
+
+            $class = $class->getParentClass();
+        }
+
+        return false;
     }
 }
