@@ -3,6 +3,7 @@
 namespace Varhall\Utilino\Utils;
 
 use Nette\Utils\DateTime;
+use Varhall\Utilino\Collections\ArrayCollection;
 
 class XmlElement implements \IteratorAggregate
 {
@@ -16,10 +17,10 @@ class XmlElement implements \IteratorAggregate
     public function __get($name)
     {
         if ($this->xml && $this->xml->$name && $this->xml->$name->count() > 1) {
-            $result = [];
+            $result = ArrayCollection::create();
 
             foreach ($this->xml->$name as $item) {
-                $result[] = new static($item);
+                $result->push(new static($item));
             }
 
             return $result;

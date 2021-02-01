@@ -47,6 +47,15 @@ class XmlElementTest extends TestCase {
             Assert::equal($values[$index++], $car->manufacturer->value());
         }
     }
+
+    public function testCollection()
+    {
+        $values = [ 'BMW', 'Audi', 'Mercedes' ];
+
+        $this->element->person->car->each(function($item, $index) use ($values) {
+            Assert::equal($values[$index], $item->manufacturer->value());
+        });
+    }
 }
 
 (new XmlElementTest())->run();
