@@ -4,13 +4,18 @@ namespace Varhall\Utilino\Utils;
 
 use Nette\Utils\DateTime;
 use Varhall\Utilino\Collections\ArrayCollection;
+use Varhall\Utilino\ISerializable;
 
-class XmlElement implements \IteratorAggregate
+class XmlElement implements \IteratorAggregate, ISerializable
 {
-    public $xml = null;
+    /** @var \SimpleXMLElement */
+    public $xml;
 
     public function __construct($xml)
     {
+        if (is_string($xml))
+            $xml = simplexml_load_string($xml);
+
         $this->xml = $xml;
     }
 
@@ -51,5 +56,30 @@ class XmlElement implements \IteratorAggregate
     public function date()
     {
         return !empty($this->value()) ? new DateTime($this->value()) : null;
+    }
+
+    public function toXml()
+    {
+        return $this->xml->asXML();
+    }
+
+    public function toArray()
+    {
+        $array = json_decode(json_encode($this->xml), true);
+        return $this->lowerKeys($array);
+    }
+
+    public function toJson()
+    {
+        return json_encode($this->toArray());
+    }
+
+    protected function lowerKeys($arr, $case = CASE_LOWER)
+    {
+        return array_map(function($item)use($case){
+            if (is_array($item))
+                $item = $this->lowerKeys($item, $case);
+            return $item;
+        }, array_change_key_case($arr, $case));
     }
 }

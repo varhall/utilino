@@ -1,23 +1,15 @@
 <?php
-require __DIR__ . '/../vendor/autoload.php';
 
-Tester\Environment::setup();
-date_default_timezone_set('Europe/Prague');
+use Ninjify\Nunjuck\Environment;
 
-function test(string $description, Closure $fn): void
-{
-    echo $description, "\n";
-    $fn();
+if (@!include __DIR__ . '/../vendor/autoload.php') {
+    echo 'Install Nette Tester using `composer update --dev`';
+    exit(1);
 }
 
-function dump(...$args)
-{
-    foreach ($args as $arg) {
-        var_dump($arg);
-    }
-}
+// Configure environment
+Environment::setupTester();
+Environment::setupTimezone();
+Environment::setupVariables(__DIR__);
 
-function dumpe(...$args) {
-    dump(...$args);
-    die();
-}
+define('FIXTURES_DIR', __DIR__ . '/fixtures');

@@ -16,15 +16,26 @@
 	},
 
 	"require": {
-		"php": ">=7.2.0",
-		"nette/utils": ">=3.0"
+		"php": ">=7.4.0",
+		"nette/utils": "^v3.1.4"
 	},
 
 	"require-dev": {
-		"nette/tester": "^2.3"
+		"ninjify/nunjuck": "^0.3.0",
+		"mockery/mockery": "^1.4.3"
 	},
 
 	"autoload": {
-		"classmap": ["src/"]
+		"classmap": [ "src/" ]
+	},
+
+	"autoload-dev": {
+		"classmap": [ "tests/engine/" ]
+	},
+
+	"scripts": {
+		"tester": [
+			"nunjuck tests/cases -s -p php -c tests/php.ini"
+		]
 	}
 }
