@@ -24,10 +24,22 @@ class XmlElementTest extends TestCase {
                 'city' => 'Prague',
                 'zip' => '150 00'
             ],
+            'emails' => [
+                'email' => [
+                    'pepa@gmail.com',
+                    'pepa.novak@cmp.com',
+                    'novak@company.cz'
+                ]
+                /*'email' => [
+                    [ '@attributes' => ['type' => 'private'], 'pepa@gmail.com' ],
+                    [ '@attributes' => ['type' => 'work'], 'pepa.novak@cmp.com' ],
+                    [ '@attributes' => ['type' => 'work'], 'novak@company.cz' ]
+                ]*/
+            ],
             'car' => [
-                [ 'manufacturer' => 'BMW', 'label' => 'ABC-123' ],
-                [ 'manufacturer' => 'Audi', 'label' => 'XXX-321' ],
-                [ 'manufacturer' => 'Mercedes', 'label' => 'YYY-666' ],
+                [ '@attributes' => ['type' => 'primary'], 'manufacturer' => 'BMW', 'label' => 'ABC-123' ],
+                [ '@attributes' => ['type' => 'secondary'], 'manufacturer' => 'Audi', 'label' => 'XXX-321' ],
+                [ '@attributes' => ['type' => 'hobby'], 'manufacturer' => 'Ferrari', 'label' => 'YYY-666' ],
             ]
         ]
     ];
@@ -71,7 +83,7 @@ class XmlElementTest extends TestCase {
 
     public function testLoop()
     {
-        $values = [ 'BMW', 'Audi', 'Mercedes' ];
+        $values = [ 'BMW', 'Audi', 'Ferrari' ];
 
         $index = 0;
         foreach ($this->create()->person->car as $car) {
@@ -81,7 +93,7 @@ class XmlElementTest extends TestCase {
 
     public function testCollection()
     {
-        $values = [ 'BMW', 'Audi', 'Mercedes' ];
+        $values = [ 'BMW', 'Audi', 'Ferrari' ];
 
         $this->create()->person->car->each(function($item, $index) use ($values) {
             Assert::equal($values[$index], $item->manufacturer->value());

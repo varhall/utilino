@@ -22,6 +22,9 @@ class ArrayCollection implements ICollection, \IteratorAggregate
             $values = [[]];
 
         $this->data = call_user_func_array('array_merge', array_map(function($item) {
+            if ($item instanceof ICollection)
+                return $item->asArray();
+
             if ($item instanceof ISerializable)
                 return $item->toArray();
 

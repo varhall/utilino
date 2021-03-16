@@ -10,16 +10,21 @@
             <city>Prague</city>
             <zip>150 00</zip>
         </address>
-        <car>
+        <emails>
+            <email type="private">pepa@gmail.com</email>
+            <email type="work">pepa.novak@cmp.com</email>
+            <email type="work">novak@company.cz</email>
+        </emails>
+        <car type="primary">
             <manufacturer>BMW</manufacturer>
             <label>ABC-123</label>
         </car>
-        <car>
+        <car type="secondary">
             <manufacturer>Audi</manufacturer>
             <label>XXX-321</label>
         </car>
-        <car>
-            <manufacturer>Mercedes</manufacturer>
+        <car type="hobby">
+            <manufacturer>Ferrari</manufacturer>
             <label>YYY-666</label>
         </car>
     </person>

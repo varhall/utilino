@@ -2,6 +2,3 @@
 /composer.lock
 /nbproject
 /.idea
-/tests/cases/output/
-/tests/temp/
-output
