@@ -3,9 +3,12 @@
 namespace Varhall\Utilino\Utils;
 
 use Varhall\Utilino\Collections\ArrayCollection;
+use Varhall\Utilino\Collections\ArrayCollectionRecall;
 
 class XmlCollection extends ArrayCollection
 {
+    use ArrayCollectionRecall;
+
     public function __construct($xml)
     {
         foreach ($xml as $item) {
@@ -19,6 +22,11 @@ class XmlCollection extends ArrayCollection
             throw new \InvalidArgumentException('Only single element can be used');
 
         return new static(...$values);
+    }
+
+    public function push($value)
+    {
+        return parent::push($value);
     }
 
     public function collection()

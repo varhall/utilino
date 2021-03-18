@@ -70,6 +70,19 @@ class XmlCollectionTest extends TestCase {
         $collection = XmlCollection::create([ $this->xml()->single ]);
         Assert::same($collection, $collection->collection());
     }
+
+    public function testMap()
+    {
+        $expected = [ '1', '2', '3' ];
+        $collection = XmlCollection::create($this->xml()->multi)->map(function($item) {
+            return str_replace('multi ', '', $item->value());
+        });
+
+        Assert::equal(3, $collection->count());
+        $collection->each(function($item, $index) use ($expected) {
+            Assert::equal($expected[$index], $item);
+        });
+    }
 }
 
 (new XmlCollectionTest())->run();
