@@ -122,6 +122,12 @@ class XmlElementTest extends TestCase {
         });
     }
 
+    public function testCollection_empty()
+    {
+        $collection = $this->createCollection()->empty->collection();
+        Assert::true($collection->isEmpty());
+    }
+
     public function testToXml()
     {
         Assert::equal(simplexml_load_file(self::DEFAULT)->asXML(), $this->create()->toXml());
