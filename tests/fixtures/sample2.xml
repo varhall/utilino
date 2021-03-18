@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test>
+    <single>single</single>
+    <multi>multi 1</multi>
+    <multi>multi 2</multi>
+    <multi>multi 3</multi>
+</test>

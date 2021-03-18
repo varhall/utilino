@@ -22,13 +22,7 @@ class XmlElement implements \IteratorAggregate, ISerializable
     public function __get($name)
     {
         if ($this->xml && $this->xml->$name && $this->xml->$name->count() > 1) {
-            $result = ArrayCollection::create();
-
-            foreach ($this->xml->$name as $item) {
-                $result->push(new static($item));
-            }
-
-            return $result;
+            return new XmlCollection($this->xml->$name);
         }
 
         return new static($this->xml ? $this->xml->$name : null);
@@ -56,6 +50,11 @@ class XmlElement implements \IteratorAggregate, ISerializable
     public function date()
     {
         return !empty($this->value()) ? new DateTime($this->value()) : null;
+    }
+
+    public function collection()
+    {
+        return new XmlCollection([ $this->xml ]);
     }
 
     public function toXml()

@@ -11,7 +11,8 @@ require __DIR__ . '/../../bootstrap.php';
 
 class XmlElementTest extends TestCase {
 
-    const FILE = FIXTURES_DIR . '/sample1.xml';
+    const DEFAULT = FIXTURES_DIR . '/sample1.xml';
+    const COLLECTIONS = FIXTURES_DIR . '/sample2.xml';
 
     protected $expected = [
         'person' => [
@@ -46,19 +47,24 @@ class XmlElementTest extends TestCase {
 
     protected function create()
     {
-        return new XmlElement(simplexml_load_file(self::FILE));
+        return new XmlElement(simplexml_load_file(self::DEFAULT));
+    }
+
+    protected function createCollection()
+    {
+        return new XmlElement(simplexml_load_file(self::COLLECTIONS));
     }
 
     public function testConstructString()
     {
-        $xml = new XmlElement(file_get_contents(self::FILE));
+        $xml = new XmlElement(file_get_contents(self::DEFAULT));
 
-        Assert::equal(simplexml_load_file(self::FILE)->asXML(), $xml->xml->asXML());
+        Assert::equal(simplexml_load_file(self::DEFAULT)->asXML(), $xml->xml->asXML());
     }
 
     public function testConstructXml()
     {
-        Assert::equal(simplexml_load_file(self::FILE)->asXML(), $this->create()->xml->asXML());
+        Assert::equal(simplexml_load_file(self::DEFAULT)->asXML(), $this->create()->xml->asXML());
     }
 
     public function testValue()
@@ -100,9 +106,25 @@ class XmlElementTest extends TestCase {
         });
     }
 
+    public function testCollection_single()
+    {
+        $expected = [ 'single' ];
+        $this->createCollection()->single->collection()->each(function($item, $index) use ($expected) {
+            Assert::equal($expected[$index], $item->value());
+        });
+    }
+
+    public function testCollection_multi()
+    {
+        $expected = [ 'multi 1', 'multi 2', 'multi 3' ];
+        $this->createCollection()->multi->collection()->each(function($item, $index) use ($expected) {
+            Assert::equal($expected[$index], $item->value());
+        });
+    }
+
     public function testToXml()
     {
-        Assert::equal(simplexml_load_file(self::FILE)->asXML(), $this->create()->toXml());
+        Assert::equal(simplexml_load_file(self::DEFAULT)->asXML(), $this->create()->toXml());
     }
 
     public function testToArray()
