@@ -3,7 +3,7 @@
 	"type": "library",
 	"description": "Varhall Utils library",
 	"keywords": ["nette", "utilities"],
-	"homepage": "https://gitlab.com/varhallpub/utilino",
+	"homepage": "https://github.com/varhall/utilino",
 	"license": "MIT",
         "authors": [
 		{
@@ -12,7 +12,7 @@
 		}
 	],
 	"support": {
-		"issues": "https://gitlab.com/varhallpub/utilino"
+		"issues": "https://github.com/varhall/utilino"
 	},
 
 	"require": {
@@ -31,11 +31,5 @@
 
 	"autoload-dev": {
 		"classmap": [ "tests/engine/" ]
-	},
-
-	"scripts": {
-		"tester": [
-			"nunjuck tests/cases -s -p php -c tests/php.ini"
-		]
 	}
 }
