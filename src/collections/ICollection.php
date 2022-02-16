@@ -18,7 +18,7 @@ interface ICollection extends \ArrayAccess, \Countable, \JsonSerializable, ISear
      *
      * @return int
      */
-    public function count();
+    public function count(): int;
 
     /** Slices collection to size, optionally from offset */
     public function limit(?int $limit, ?int $offset = null);
