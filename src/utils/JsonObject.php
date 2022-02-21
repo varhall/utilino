@@ -40,12 +40,12 @@ class JsonObject implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 
     /// ArrayAccess
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->data[$offset]);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         $value = &$this->data[$offset];
 
@@ -59,15 +59,13 @@ class JsonObject implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
         return $value;
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->data[$offset] = $value;
         $this->onChange($this, $offset, $value);
-
-        return $this;
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset ($this->data[$offset]);
     }
@@ -75,7 +73,7 @@ class JsonObject implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 
     /// Countable
 
-    public function count()
+    public function count(): int
     {
         return count($this->data);
     }
@@ -83,7 +81,7 @@ class JsonObject implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 
     /// IteratorAggregate
 
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->data);
     }
@@ -91,7 +89,7 @@ class JsonObject implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 
     /// JsonSerializable
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }

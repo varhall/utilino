@@ -59,7 +59,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
      * <b>Traversable</b>
      * @since 5.0.0
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->data);
     }
@@ -76,7 +76,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
      * The return value will be casted to boolean if non-boolean was returned.
      * @since 5.0.0
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->data[$offset]);
     }
@@ -90,7 +90,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
      * @return mixed Can return all value types.
      * @since 5.0.0
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->data[$offset];
     }
@@ -107,7 +107,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
      * @return void
      * @since 5.0.0
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->data[$offset] = $value;
     }
@@ -121,7 +121,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
      * @return void
      * @since 5.0.0
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->data[$offset]);
     }
@@ -133,7 +133,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
      * which is a value of any type other than a resource.
      * @since 5.4.0
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->data;
     }
@@ -150,7 +150,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
 
     /// ICollection interface
 
-    public function count()
+    public function count(): int
     {
         return count($this->data);
     }

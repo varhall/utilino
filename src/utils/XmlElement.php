@@ -28,7 +28,7 @@ class XmlElement implements \IteratorAggregate, ISerializable
         return new static($this->xml ? $this->xml->$name : null);
     }
 
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         $array = iterator_to_array($this->xml);
 
