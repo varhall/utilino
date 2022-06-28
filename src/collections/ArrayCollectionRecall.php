@@ -58,6 +58,18 @@ trait ArrayCollectionRecall
     }
 
     /**
+     * Runs the function for chunks of given size
+     *
+     * @param int $size Chunk size
+     * @param callable $func Function
+     * @return ICollection
+     */
+    public function chunk(int $size, callable $func)
+    {
+        return $this->toArrayCollection()->chunk($size, $func);
+    }
+
+    /**
      * Collection of keys
      *
      * @return ICollection

@@ -229,6 +229,17 @@ class ArrayCollection implements ICollection, \IteratorAggregate
         }, ArrayCollection::create());
     }
 
+    public function chunk(int $size, callable $func)
+    {
+        $chunks = array_chunk($this->data, $size);
+
+        foreach ($chunks as $index => $chunk) {
+            call_user_func($func, new static($chunk), $index);
+        }
+
+        return $this;
+    }
+
     public function isEmpty()
     {
         return $this->count() === 0;

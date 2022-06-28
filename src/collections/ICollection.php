@@ -77,6 +77,15 @@ interface ICollection extends \ArrayAccess, \Countable, \JsonSerializable, ISear
     public function flatten();
 
     /**
+     * Runs the function for chunks of given size
+     *
+     * @param int $size Chunk size
+     * @param callable $func Function
+     * @return ICollection
+     */
+    public function chunk(int $size, callable $func);
+
+    /**
      * True if collection is empty
      *
      * @return boolean
