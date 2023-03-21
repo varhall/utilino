@@ -3,3 +3,4 @@
 /nbproject
 /.idea
 coverage*
+!coverage.yml
