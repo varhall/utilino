@@ -12,7 +12,8 @@ class FileUtils
         if (!empty($params))
             $url .= '?' . http_build_query($params);
 
-        $tmp = tmpfile();
+        $tempnam = tempnam(sys_get_temp_dir(), 'va_');
+        $tmp = fopen($tempnam, 'w');
 
         $curl = curl_init();
         curl_setopt_array($curl, [
@@ -60,7 +61,7 @@ class FileUtils
         return new \Nette\Http\FileUpload([
             'name'      => $filename,
             'tmp_name'  => $resourceName,
-            'type'      => finfo_file(finfo_open(FILEINFO_MIME_TYPE), $resourceName),      // automatically retrieved
+            //'type'      => finfo_file(finfo_open(FILEINFO_MIME_TYPE), $resourceName),      // automatically retrieved
             'size'      => filesize($resourceName),
             'error'     => 0
         ]);
