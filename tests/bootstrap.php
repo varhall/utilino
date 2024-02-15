@@ -13,3 +13,17 @@ Environment::setupTimezone();
 Environment::setupVariables(__DIR__);
 
 define('FIXTURES_DIR', __DIR__ . '/fixtures');
+
+function dump(...$args)
+{
+    foreach ($args as $arg) {
+        var_dump($arg);
+    }
+}
+
+function dumpe(...$args)
+{
+    dump(...$args);
+    \Tester\Assert::fail('Dump variable');
+    die();
+}

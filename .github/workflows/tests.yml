@@ -1,29 +1,69 @@
-name: "Nette Tester"
+name: "Tests"
 
 on:
   pull_request:
-
+    paths-ignore:
+      - ".docs/**"
   push:
-    branches: ["*"]
-
+    branches:
+      - "*"
   schedule:
-    - cron: "0 8 * * 1"
+    - cron: "0 8 * * 1" # At 08:00 on Monday
+
+env:
+  extensions: "json, pdo_mysql"
 
 jobs:
-  build82:
-    name: "Nette Tester"
-    uses: contributte/.github/.github/workflows/nette-tester.yml@v1
-    with:
-      php: "8.2"
+  tests:
+    name: "Tests"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        php: [ "8.3", "8.2", "8.1" ]
+        os: [ubuntu-latest]
 
-  build81:
-    name: "Nette Tester"
-    uses: contributte/.github/.github/workflows/nette-tester.yml@v1
-    with:
-      php: "8.1"
+#    services:
+#      database:
+#        image: mariadb:latest
+#        ports:
+#          - 3306:3306
+#        env:
+#          MYSQL_ROOT_PASSWORD: 'test'
+#          MYSQL_DATABASE: 'test'
+#        options: --health-cmd="healthcheck.sh --su-mysql --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
 
-  build80:
-    name: "Nette Tester"
-    uses: contributte/.github/.github/workflows/nette-tester.yml@v1
-    with:
-      php: "8.0"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: "${{ env.extensions }}"
+
+      - run: composer install --no-progress --prefer-dist
+
+      - run: make tests
+        shell: bash
+
+      - if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: output
+          path: tests/**/output
+
+
+  coverage:
+    name: Code Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: "${{ env.extensions }}"
+
+      - run: composer install --no-progress --prefer-dist
+      - run: make coverage
+      - run: wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.4.3/php-coveralls.phar
+      - env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: php php-coveralls.phar --verbose --config tests/.coveralls.yml

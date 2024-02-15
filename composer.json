@@ -17,12 +17,13 @@
 
 	"require": {
 		"php": ">=8.0",
-		"nette/utils": ">=v3.1"
+		"nette/utils": ">=v4.0",
+		"nette/schema": ">=v1.3"
 	},
 
 	"require-dev": {
 		"ninjify/nunjuck": "^v0.4",
-		"mockery/mockery": "^1.5"
+		"mockery/mockery": "^1.6"
 	},
 
 	"autoload": {
