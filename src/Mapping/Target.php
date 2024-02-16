@@ -3,6 +3,7 @@
 namespace Varhall\Utilino\Mapping;
 
 use Nette\Schema\Expect;
+use Nette\Schema\Helpers;
 use Nette\Schema\Schema;
 use Nette\Utils\Type;
 use Varhall\Utilino\Mapping\Attributes\Date;
@@ -39,7 +40,17 @@ class Target
         $schema = $this->base()->schema();
 
         if ($type && count($this->type()->getTypes()) === 1) {
-            $schema = $schema->castTo($this->object->getType()->getName());
+            // Custom "castTo" implementation
+            $schema = $schema->transform(function($value) {
+                $t = $this->object->getType()->getName();
+
+                if ($value instanceof $t) {
+                    return $value;
+                }
+
+                $func = Helpers::getCastStrategy($t);
+                return $func($value);
+            });
         }
 
         if (!$type || $this->object->getType()->allowsNull()) {

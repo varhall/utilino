@@ -101,10 +101,10 @@ class CasesTest extends TestCase
 
         $processor = new Processor();
 
-        $now = new \DateTime();
+        $now = new DateTime(date('c'));
         foreach ([$now, DateTime::from($now), $now->format('c'), $now->getTimestamp()] as $value) {
             $result = $processor->process($schema, $value);
-            Assert::equal($now->format('c'), $result->format('c'));
+            Assert::equal($now, $result);
         }
     }
 
@@ -136,7 +136,7 @@ class CasesTest extends TestCase
         $expected->surname = 'Muster';
         $expected->email = 'hans@gmail.com';
         $expected->age = 50;
-        $expected->created = new \DateTime($date->format('c'));
+        $expected->created = $date;
         $expected->address = new Address();
         $expected->address->street = 'Weissensee 18';
         $expected->address->city = 'Berlin';

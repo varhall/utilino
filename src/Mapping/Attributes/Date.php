@@ -24,8 +24,7 @@ class Date implements IBase
         return Expect::anyOf(
             Expect::type(\DateTime::class),
             Expect::type('string|int')->transform(fn($x) => DateTime::from($x)),
-        )->transform(fn($date) => $date->setTimezone(new \DateTimeZone(date_default_timezone_get())))
-         ->transform(fn($date) => $date->format('c'));
+        )->transform(fn($date) => $date->setTimezone(new \DateTimeZone(date_default_timezone_get())));
     }
 
     protected function parse(string|int $value): ?DateTime
