@@ -16,10 +16,11 @@ class XmlCollection extends ArrayCollection
         }
     }
 
-    public static function create(...$values)
+    public static function create(...$values): static
     {
-        if (count($values) !== 1)
+        if (count($values) !== 1) {
             throw new \InvalidArgumentException('Only single element can be used');
+        }
 
         return new static(...$values);
     }
@@ -29,7 +30,7 @@ class XmlCollection extends ArrayCollection
         return parent::push($value);
     }
 
-    public function collection()
+    public function collection(): XmlCollection
     {
         return $this;
     }

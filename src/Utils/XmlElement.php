@@ -3,23 +3,22 @@
 namespace Varhall\Utilino\Utils;
 
 use Nette\Utils\DateTime;
-use Varhall\Utilino\Collections\ArrayCollection;
 use Varhall\Utilino\ISerializable;
 
 class XmlElement implements \IteratorAggregate, ISerializable
 {
-    /** @var \SimpleXMLElement */
-    public $xml;
+    public \SimpleXMLElement $xml;
 
     public function __construct($xml)
     {
-        if (is_string($xml))
+        if (is_string($xml)) {
             $xml = simplexml_load_string($xml);
+        }
 
         $this->xml = $xml;
     }
 
-    public function __get($name)
+    public function __get($name): static|XmlCollection
     {
         if ($this->xml && $this->xml->$name && $this->xml->$name->count() > 1) {
             return new XmlCollection($this->xml->$name);
@@ -37,47 +36,65 @@ class XmlElement implements \IteratorAggregate, ISerializable
         }, $array));
     }
 
-    public function value()
+    public function value(): string
     {
         return $this->xml ? trim($this->xml->__toString()) : '';
     }
 
-    public function number()
+    public function number(): int|float|string
     {
-        return is_numeric($this->value()) ? $this->value() + 0 : $this->value();
+        return is_numeric($this->value()) ? +$this->value() : $this->value();
     }
 
-    public function date()
+    public function date(): ?DateTime
     {
         return !empty($this->value()) ? new DateTime($this->value()) : null;
     }
 
-    public function collection()
+    public function collection(): XmlCollection
     {
         return new XmlCollection($this->xml->count ? [ $this->xml ] : []);
     }
 
-    public function toXml()
+    public function select(string $xpath): static|XmlCollection
+    {
+        $result = $this->xml->xpath($xpath);
+        return count($result) > 1 ? new XmlCollection($result) : new static($result[0] ?? null);
+    }
+
+    public function attributes(): array
+    {
+        return json_decode(json_encode($this->xml->attributes()), true)['@attributes'] ?? [];
+    }
+
+    public function attribute(string $name): ?string
+    {
+        return $this->attributes()[$name] ?? null;
+    }
+
+    public function toXml(): string
     {
         return $this->xml->asXML();
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         $array = json_decode(json_encode($this->xml), true);
         return $this->lowerKeys($array);
     }
 
-    public function toJson()
+    public function toJson(): string
     {
         return json_encode($this->toArray());
     }
 
-    protected function lowerKeys($arr, $case = CASE_LOWER)
+    protected function lowerKeys(array $arr, int $case = CASE_LOWER): array
     {
-        return array_map(function($item)use($case){
-            if (is_array($item))
+        return array_map(function($item) use ($case){
+            if (is_array($item)) {
                 $item = $this->lowerKeys($item, $case);
+            }
+
             return $item;
         }, array_change_key_case($arr, $case));
     }

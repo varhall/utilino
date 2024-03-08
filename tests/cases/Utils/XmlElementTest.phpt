@@ -128,6 +128,39 @@ class XmlElementTest extends TestCase {
         Assert::true($collection->isEmpty());
     }
 
+    public function testSelect_single()
+    {
+        Assert::equal('Pepa', $this->create()->select('//person/name')->value());
+    }
+
+    public function testSelect_collection()
+    {
+        $values = [ 'BMW', 'Audi', 'Ferrari' ];
+        $this->create()->select('//person/car')->each(function($item, $index) use ($values) {
+            Assert::equal($values[$index], $item->manufacturer->value());
+        });
+    }
+
+    public function testAttributes_with()
+    {
+        Assert::equal([ 'type' => 'primary' ], $this->create()->person->car[0]->attributes());
+    }
+
+    public function testAttributes_without()
+    {
+        Assert::equal([], $this->create()->person->name->attributes());
+    }
+
+    public function testAttribute_exists()
+    {
+        Assert::equal('primary', $this->create()->person->car[0]->attribute('type'));
+    }
+
+    public function testAttribute_not_exists()
+    {
+        Assert::null($this->create()->person->name->attribute('type'));
+    }
+
     public function testToXml()
     {
         Assert::equal(simplexml_load_file(self::DEFAULT)->asXML(), $this->create()->toXml());
