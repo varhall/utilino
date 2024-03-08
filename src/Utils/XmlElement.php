@@ -7,7 +7,7 @@ use Varhall\Utilino\ISerializable;
 
 class XmlElement implements \IteratorAggregate, ISerializable
 {
-    public \SimpleXMLElement $xml;
+    public \SimpleXMLElement|null $xml;
 
     public function __construct($xml)
     {
@@ -56,10 +56,15 @@ class XmlElement implements \IteratorAggregate, ISerializable
         return new XmlCollection($this->xml->count ? [ $this->xml ] : []);
     }
 
-    public function select(string $xpath): static|XmlCollection
+    public function select(string $xpath): static|XmlCollection|null
     {
         $result = $this->xml->xpath($xpath);
-        return count($result) > 1 ? new XmlCollection($result) : new static($result[0] ?? null);
+
+        if (empty($result)) {
+            return null;
+        }
+
+        return count($result) > 1 ? new XmlCollection($result) : new static($result[0]);
     }
 
     public function attributes(): array
