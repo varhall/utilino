@@ -15,11 +15,4 @@ interface ISerializable
      * @return array
      */
     public function toArray();
-
-    /**
-     * Converts object to JSON
-     *
-     * @return string
-     */
-    public function toJson();
 }

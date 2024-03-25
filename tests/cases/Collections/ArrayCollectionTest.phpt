@@ -397,17 +397,6 @@ class ArrayCollectionTest extends TestCase
         Assert::equal([[ 'name' => 'foo' ], [ 'name' => 'bar' ], [ 'name' => 'baz' ]], $collection->toArray());
     }
 
-    public function testToJson()
-    {
-        $collection = ArrayCollection::create([
-            (object) [ 'name' => 'foo' ],
-            (object) [ 'name' => 'bar' ],
-            (object) [ 'name' => 'baz' ]
-        ]);
-
-        Assert::equal(json_encode([[ 'name' => 'foo' ], [ 'name' => 'bar' ], [ 'name' => 'baz' ]]), $collection->toJson());
-    }
-
     public function testChunk()
     {
         $collection = ArrayCollection::range(1, 20);

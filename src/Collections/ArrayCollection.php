@@ -360,9 +360,4 @@ class ArrayCollection implements ICollection, \IteratorAggregate
             return null;
         })->data;
     }
-
-    public function toJson()
-    {
-        return json_encode($this);
-    }
 }
