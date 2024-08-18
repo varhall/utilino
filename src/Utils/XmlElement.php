@@ -53,7 +53,7 @@ class XmlElement implements \IteratorAggregate, ISerializable
 
     public function collection(): XmlCollection
     {
-        return new XmlCollection($this->xml->count ? [ $this->xml ] : []);
+        return new XmlCollection($this->xml->count() ? [ $this->xml ] : []);
     }
 
     public function select(string $xpath): static|XmlCollection|null
