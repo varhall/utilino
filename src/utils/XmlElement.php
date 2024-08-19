@@ -54,7 +54,7 @@ class XmlElement implements \IteratorAggregate, ISerializable
 
     public function collection()
     {
-        return new XmlCollection($this->xml->count ? [ $this->xml ] : []);
+        return new XmlCollection($this->xml?->count() ? [ $this->xml ] : []);
     }
 
     public function toXml()
