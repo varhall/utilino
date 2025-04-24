@@ -11,7 +11,7 @@ on:
     - cron: "0 8 * * 1" # At 08:00 on Monday
 
 env:
-  extensions: "json, pdo_mysql"
+  extensions: "json"
 
 jobs:
   tests:
@@ -19,31 +19,17 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        php: [ "8.3", "8.2", "8.1" ]
+        php: [ "8.4", "8.3", "8.2", "8.1" ]
         os: [ubuntu-latest]
-
-#    services:
-#      database:
-#        image: mariadb:latest
-#        ports:
-#          - 3306:3306
-#        env:
-#          MYSQL_ROOT_PASSWORD: 'test'
-#          MYSQL_DATABASE: 'test'
-#        options: --health-cmd="healthcheck.sh --su-mysql --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           extensions: "${{ env.extensions }}"
-
       - run: composer install --no-progress --prefer-dist
-
       - run: make tests
         shell: bash
-
       - if: failure()
         uses: actions/upload-artifact@v3
         with:
@@ -55,14 +41,14 @@ jobs:
     name: Code Coverage
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: 8.4
           extensions: "${{ env.extensions }}"
-
       - run: composer install --no-progress --prefer-dist
       - run: make coverage
+        shell: bash
       - run: wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.4.3/php-coveralls.phar
       - env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
