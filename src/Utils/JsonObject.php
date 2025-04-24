@@ -4,6 +4,7 @@ namespace Varhall\Utilino\Utils;
 
 use Nette\SmartObject;
 use Nette\Utils\Json;
+use Varhall\Utilino\Collections\ArrayCollection;
 use Varhall\Utilino\ISerializable;
 
 class JsonObject implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable, ISerializable
@@ -83,7 +84,9 @@ class JsonObject implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 
     public function getIterator(): \Traversable
     {
-        return new \ArrayIterator($this->data);
+        for ($i = 0; $i < count($this->data); $i++) {
+            yield $this[$i];
+        }
     }
 
 
@@ -104,5 +107,15 @@ class JsonObject implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
     public function toJson()
     {
         return Json::encode($this->toArray());
+    }
+
+    public function toCollection()
+    {
+        $data = [];
+        foreach ($this as $item) {
+            $data[] = $item;
+        }
+
+        return ArrayCollection::create($data);
     }
 }
