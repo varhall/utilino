@@ -66,10 +66,10 @@ interface ICollection extends \ArrayAccess, \Countable, \JsonSerializable, ISear
     /**
      * Returns first item which matches function if given
      *
-     * @param callable|NULL $func args: $item
+     * @param ?callable $func args: $item
      * @return mixed
      */
-    public function first(callable $func = NULL);
+    public function first(?callable $func = null);
 
     /**
      * @return Reduces level of collection
@@ -102,10 +102,10 @@ interface ICollection extends \ArrayAccess, \Countable, \JsonSerializable, ISear
     /**
      * Returns last item which matches function if given
      *
-     * @param callable|NULL $func args: $item
+     * @param ?callable $func args: $item
      * @return mixed
      */
-    public function last(callable $func = NULL);
+    public function last(?callable $func = null);
 
     /**
      * Transforms each item using given function
@@ -170,7 +170,7 @@ interface ICollection extends \ArrayAccess, \Countable, \JsonSerializable, ISear
      * @param mixed|null $initial
      * @return mixed
      */
-    public function reduce(callable $func, $initial = NULL);
+    public function reduce(callable $func, $initial = null);
 
     /**
      * Reverse order of collection

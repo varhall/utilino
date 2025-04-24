@@ -85,7 +85,7 @@ trait ArrayCollectionRecall
      * @param callable|null $func args: $item
      * @return mixed
      */
-    public function last(callable $func = null)
+    public function last(?callable $func = null)
     {
         return $this->toArrayCollection()->last($func);
     }

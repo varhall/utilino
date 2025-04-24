@@ -8,21 +8,24 @@ class Merge extends Decorator
     const FORCE = 'force';
     const SAME  = 'same';
 
-    protected $merge = NULL;
+    protected $merge = null;
     protected $method = self::FORCE;
 
-    public function __construct(IPrice $price = NULL, IPrice $merge = NULL, $method = self::FORCE)
+    public function __construct(?IPrice $price = null, ?IPrice $merge = null, string $method = self::FORCE)
     {
-        if ($price === NULL)
+        if ($price === null) {
             $price = Price::basic(0);
+        }
 
-        if ($merge === NULL)
+        if ($merge === null) {
             $merge = Price::basic(0);
+        }
 
         parent::__construct($price);
 
-        if ($method === self::SAME && $price->vat() !== $merge->vat())
+        if ($method === self::SAME && $price->vat() !== $merge->vat()) {
             throw new \InvalidArgumentException('Cannot merge prices with different VAT');
+        }
 
         $this->merge = $merge;
     }
@@ -39,6 +42,6 @@ class Merge extends Decorator
 
     public function vat()
     {
-        return $this->price->vat() === $this->merge->vat() ? $this->price->vat() : NULL;
+        return $this->price->vat() === $this->merge->vat() ? $this->price->vat() : null;
     }
 }

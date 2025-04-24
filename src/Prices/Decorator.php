@@ -5,7 +5,7 @@ namespace Varhall\Utilino\Prices;
 
 abstract class Decorator extends AbstractPrice
 {
-    protected $price = NULL;
+    protected IPrice $price;
 
     public function __construct(IPrice $price)
     {

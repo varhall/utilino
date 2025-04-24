@@ -212,7 +212,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
         }, ARRAY_FILTER_USE_KEY));
     }
 
-    public function first(callable $func = null)
+    public function first(?callable $func = null)
     {
         $collection = !!$func ? $this->filter($func) : $this;
 
@@ -250,7 +250,7 @@ class ArrayCollection implements ICollection, \IteratorAggregate
         return new static(array_keys($this->data));
     }
 
-    public function last(callable $func = null)
+    public function last(?callable $func = null)
     {
         $collection = !!$func ? $this->filter($func) : $this;
 
@@ -311,10 +311,11 @@ class ArrayCollection implements ICollection, \IteratorAggregate
         return new static(array_reverse($this->asArray()));
     }
 
-    public function search($value, callable $func = null)
+    public function search($value, ?callable $func = null)
     {
-        if ($func === null && $this->_searchFunc !== null)
+        if ($func === null && $this->_searchFunc !== null) {
             $func = $this->_searchFunc;
+        }
 
         return new static($this->filter(function($item) use($func, $value) {
             return !!$func ? call_user_func($func, $item, $value) : true;
