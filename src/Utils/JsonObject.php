@@ -5,6 +5,7 @@ namespace Varhall\Utilino\Utils;
 use Nette\SmartObject;
 use Nette\Utils\Json;
 use Varhall\Utilino\Collections\ArrayCollection;
+use Varhall\Utilino\Collections\ICollection;
 use Varhall\Utilino\ISerializable;
 
 class JsonObject implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable, ISerializable
@@ -109,7 +110,7 @@ class JsonObject implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
         return Json::encode($this->toArray());
     }
 
-    public function toCollection()
+    public function toCollection(): ICollection
     {
         $data = [];
         foreach ($this as $item) {
